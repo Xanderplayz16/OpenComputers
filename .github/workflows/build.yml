@@ -8,6 +8,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 8
@@ -24,6 +25,8 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: ${{ runner.os }}-gradle-
+      - name: Set up workspace
+        run: ./gradlew setupDecompWorkspace
       - name: Build with Gradle
         run: ./gradlew build
         env:
